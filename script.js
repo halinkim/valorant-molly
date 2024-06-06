@@ -1,25 +1,55 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const filterButtons = document.querySelectorAll('.catbtn');
-    const imageItems = document.querySelectorAll('.imageItem');
     const modal = document.getElementById('modal');
     const modalImg = document.getElementById('modal-img');
     const captionText = document.getElementById('caption');
     const closeModal = document.getElementsByClassName('close')[0];
 
+    const filterButtons = document.querySelectorAll('.catbtn');
+    const tarButtons = document.querySelectorAll('.tarbtn');
+    const useforButtons = document.querySelectorAll('.useforbtn');
+    const imageItems = document.querySelectorAll('.imageItem');
+
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {
             document.querySelector('.catbtn.active').classList.remove('active');
             this.classList.add('active');
-            const filter = this.getAttribute('data-filter');
-            imageItems.forEach(item => {
-                if (filter === 'all' || item.getAttribute('data-category') === filter) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+            filterImages();
         });
     });
+
+    tarButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            document.querySelector('.tarbtn.active').classList.remove('active');
+            this.classList.add('active');
+            filterImages();
+        });
+    });
+
+    useforButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            document.querySelector('.useforbtn.active').classList.remove('active');
+            this.classList.add('active');
+            filterImages();
+        });
+    });
+
+    function filterImages() {
+        const category = document.querySelector('.catbtn.active').getAttribute('data-filter');
+        const tar = document.querySelector('.tarbtn.active').getAttribute('tar-filter');
+        const usefor = document.querySelector('.useforbtn.active').getAttribute('usefor-filter');
+
+        imageItems.forEach(item => {
+            const itemCategory = item.getAttribute('data-category');
+            const itemTar = item.getAttribute('target');
+            const itemUsefor = item.getAttribute('usefor');
+
+            if ((category === 'all' || itemCategory === category) && (tar === 'all' || itemTar === tar) && (usefor === 'all' || itemUsefor === usefor)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
 
     imageItems.forEach(item => {
         item.addEventListener('click', function() {
